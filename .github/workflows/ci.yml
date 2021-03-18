@@ -39,6 +39,8 @@ jobs:
         sudo mv ./kubectl /usr/local/bin/kubectl
         mkdir ${HOME}/.kube
         echo "${{ secrets.KUBE_CONFIG_YAML }}" | base64 --decode > ${HOME}/.kube/config
+        chown $(id -u):$(id -g) $HOME/.kube/config
+        kubectl version
         kubectl get pods
         kubectl run nginx --image=nginx --replicas=1
         echo ${{ github.event_name }}
