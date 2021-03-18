@@ -1,16 +1,14 @@
-## this workflow is used for dev environments to add new product configurations and promote up
-
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
   push:
     branches:
       - qa
-      - main
       - master
+      - main
 
 
-name: Deploy Feature Env
+name: Deploy Updates to Stable Envs
 
 jobs:
   deploy:
@@ -23,18 +21,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Install Dependencies
-      run: |
-        set -x
-        echo ${{ secrets.AWS_ACCESS_KEY_ID }}
-        echo ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        echo ${{ secrets.KOPS_CLUSTER_NAME }}
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-south-1
+        aws-region: us-east-2
     - name: Install Dependencies
       run: |
         set -x
