@@ -25,7 +25,7 @@ jobs:
       with:
         aws-access-key-id: AKIA4Z4PB4NRBTUJIFG5
         aws-secret-access-key: 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
-        aws-region: ap-south-1a
+        aws-region: ap-south-1
     - name: Install Dependencies
       run: |
         set -x
