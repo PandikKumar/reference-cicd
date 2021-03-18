@@ -1,0 +1,45 @@
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+
+
+name: Deploy Updates to Stable Envs
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - name: Install Dependencies
+      run: |
+        set -x
+		sudo apt-get update -y
+		sudo apt-get install awscli -y 
+		curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+		chmod +x kops-linux-amd64
+		sudo mv kops-linux-amd64 /usr/local/bin/kops
+		curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+		chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        mkdir ${HOME}/.kube
+        echo "${{ secrets.KUBE_CONFIG_YAML }}" | base64 --decode > ${HOME}/.kube/config
+        kubectl version
+		kubectl get pods
+		kubectl run nginx --image=nginx --replicas=1
+		echo ${{ github.event_name }}
