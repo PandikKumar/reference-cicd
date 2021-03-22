@@ -42,37 +42,5 @@ jobs:
         kubectl version
         kubectl get pods
         kubectl run nginx --image=nginx --replicas=1
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh
-        helm repo add pingidentity https://helm.pingidentity.com/
-        helm repo update
-        helm repo ls
-        helm ls
-        echo "ended install"
-        echo ${{ github.event_name }}
-    ## Shouldn't need to create myping on QA. 
-    # - name: Create MyPing Env
-    #   # if: "contains( github.event_name , 'create')"
-    #   # if will be handled in postman. tricky to manage from github actions. 
-    #   run: ci_tools/run_postman.sh k8s/createmyping.yaml
-    #   env:
-    #     ## These environment variables will be obfuscated in workflow logs.
-    #     ## must use standard shell format
-    #     P1_ADMIN_ENV_ID: ${{ secrets.P1_ADMIN_ENV_ID}}
-    #     P1_ADMIN_ORG_ID: ${{ secrets.P1_ADMIN_ORG_ID}}
-    #     P1_ADMIN_ENV_ROLE_ID: ${{ secrets.P1_ADMIN_ENV_ROLE_ID}}
-    #     PF_ADMIN_WORKER_ID: ${{ secrets.PF_ADMIN_WORKER_ID}}
-    #     PF_ADMIN_WORKER_SECRET: ${{ secrets.PF_ADMIN_WORKER_SECRET}}
-    #     SLACK_WEBHOOK_ID: ${{ secrets.SLACK_WEBHOOK_ID }}
-      # eval sha of profile dirs and deploy chart
-    - name: Deploy Changes
-      env:
-        P1_ADMIN_ENV_ID: ${{ secrets.P1_ADMIN_ENV_ID}}
-        PF_ADMIN_WORKER_ID: ${{ secrets.PF_ADMIN_WORKER_ID}}
-        PF_ADMIN_WORKER_SECRET: ${{ secrets.PF_ADMIN_WORKER_SECRET}}
-      run: |
-        export REF=$(echo $GITHUB_REF | sed -e "s#refs/heads/##g")
-        sh ci_tools/helm_deploy.sh
-    - name: Integration Test
-      run: ci_tools/run_postman.sh k8s/integrationtest.yaml
+        
+   
