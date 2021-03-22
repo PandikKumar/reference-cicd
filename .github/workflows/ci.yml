@@ -42,5 +42,4 @@ jobs:
         kubectl version
         kubectl get pods
         kubectl run nginx --image=nginx --replicas=1
-        
-   
+        echo ${{ github.event_name }}
