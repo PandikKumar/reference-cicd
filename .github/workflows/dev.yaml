@@ -50,6 +50,8 @@ jobs:
         helm ls
         echo "ended install"
         echo ${{ github.event_name }}
+        export REF=$(echo $GITHUB_REF | sed -e "s#refs/heads/##g")
+        echo $REF
     - name: Deploy Changes
       env:
         PF_ADMIN_WORKER_ID: ${{ secrets.PF_ADMIN_WORKER_ID}}
