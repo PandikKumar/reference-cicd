@@ -41,5 +41,12 @@ jobs:
         echo "${{ secrets.KUBE_CONFIG_YAML }}" | base64 --decode > ${HOME}/.kube/config
         kubectl version
         kubectl get pods
-        kubectl run nginx --image=nginx --replicas=1
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+        helm repo add pingidentity https://helm.pingidentity.com/
+        helm repo update
+        helm repo ls
+        helm ls
+        echo "ended install"
         echo ${{ github.event_name }}
