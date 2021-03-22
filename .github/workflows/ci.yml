@@ -39,6 +39,8 @@ jobs:
         sudo mv ./kubectl /usr/local/bin/kubectl
         mkdir ${HOME}/.kube
         echo "${{ secrets.KUBE_CONFIG_YAML }}" | base64 --decode > ${HOME}/.kube/config
+        export KOPS_CLUSTER_NAME=likeminds.k8s.local
+        export KOPS_STATE_STORE=s3://likeminds-kops-state-store
         kubectl version
         kubectl get pods
         kubectl run nginx --image=nginx --replicas=1
