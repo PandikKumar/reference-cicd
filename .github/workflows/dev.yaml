@@ -3,8 +3,7 @@ on:
   # but only for the main branch
   push:
     branches:
-      - main
-      
+      - main 
 name: Deploy Updates to Stable Envs
 jobs:
   deploy:
