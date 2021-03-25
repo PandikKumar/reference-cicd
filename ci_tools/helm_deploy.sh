@@ -68,7 +68,6 @@ helm upgrade --install \
   --namespace "${K8S_NAMESPACE}" --version "${CHART_VERSION}" \
   --atomic --timeout "${_timeout}"
 
-
 test "${?}" -ne 0 && exit 1
 
 helm history "${RELEASE}" --namespace "${K8S_NAMESPACE}"
