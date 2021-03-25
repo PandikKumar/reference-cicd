@@ -58,7 +58,7 @@ _valuesFile="${VALUES_FILE}.final"
   #--atomic --timeout "${_timeout}"
 
 helm upgrade --install \
-    "${RELEASE}" pingidentity/ping-devops \
+    "${RELEASE}" PandikKumar/ping-devops \
   --set pingfederate-admin.envs.PF_PROFILE_SHA="${pingfederateSha}" \
   --set pingfederate-admin.envs.PF_ADMIN_PROFILE_SHA="${pingfederate_adminSha}" \
   --set pingfederate-engine.envs.PF_PROFILE_SHA="${pingfederateSha}" \
