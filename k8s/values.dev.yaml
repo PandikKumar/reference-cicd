@@ -102,7 +102,7 @@ pingfederate-admin:
 # # pingfederate-engine values
 # #############################################################
 pingfederate-engine:
-#   enabled: true
+   enabled: false
 #   image:
 #     repository: pingidentity
 #     name: pingfederate
