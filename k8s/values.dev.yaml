@@ -16,6 +16,7 @@
 ############################################################
 global:
   envs:
+    VERBOSE: true
     PD_CONSOLE_PRIVATE_HOSTNAME: qa-pingdataconsole.sg-qa.svc.cluster.local
     PD_CONSOLE_PRIVATE_PORT_HTTPS: "8443"
     PD_CONSOLE_PUBLIC_HOSTNAME: qa-pingdataconsole.ping-devops.com
