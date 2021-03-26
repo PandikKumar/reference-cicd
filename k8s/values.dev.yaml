@@ -44,7 +44,6 @@ global:
 #     tag: 10.2.0-edge
 #     pullPolicy: Always
    envs:
-     VERBOSE: true
 #     PF_CONSOLE_AUTHENTICATION: OIDC
 #     PF_ADMIN_API_AUTHENTICATION: NATIVE
      SERVER_PROFILE_BASE_PATH: profiles/pingfederate
