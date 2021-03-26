@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main 
-      
+
+
 name: Deploy Updates to Stable Envs
 
 jobs:
