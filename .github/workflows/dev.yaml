@@ -6,11 +6,13 @@ on:
       - main 
       
 name: Deploy Updates to Stable Envs
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: "!contains(github.event.commits[0].message, '[skip ci]')
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
