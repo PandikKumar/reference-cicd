@@ -34,7 +34,7 @@ global:
     secret:
       devOps: devops-secret
   vault:
-    enabled: true
+    enabled: false
     hashicorp:
       role: ping-devops-gte-default
       log-level: debug
@@ -62,7 +62,7 @@ pingfederate-admin:
     tag: 10.2.0-edge
     pullPolicy: Always
   envs:
-    PF_CONSOLE_AUTHENTICATION: OIDC
+    PF_CONSOLE_AUTHENTICATION: NATIVE
     PF_ADMIN_API_AUTHENTICATION: NATIVE
     SERVER_PROFILE_BASE_PATH: profiles/pingfederate
     SERVER_PROFILE_BASE_URL: https://github.com/pingdevopsprogram/reference-cicd
@@ -78,22 +78,22 @@ pingfederate-admin:
     # PF_OIDC_CLIENT_ID: ""
     # PF_OIDC_CLIENT_SECRET: ""
     # will change per account
-    PF_OIDC_CLIENT_AUTHN_METHOD: client_secret_basic
-    PF_OIDC_AUTHORIZATION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/authorize"
-    PF_OIDC_TOKEN_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/token"
-    PF_OIDC_USER_INFO_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/userinfo"
-    PF_OIDC_END_SESSION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/signoff"
-    PF_OIDC_ISSUER: https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as
-    PF_OIDC_ACR_VALUES: ""
-    PF_OIDC_SCOPES: openid email profile
-    PF_OIDC_USERNAME_ATTRIBUTE_NAME: name
-    PF_OIDC_ROLE_ATTRIBUTE_NAME: pf_admin_roles
-    PF_OIDC_ROLE_ADMIN: fullAdmin
-    PF_OIDC_ROLE_CRYPTOMANAGER: fullAdmin
-    PF_OIDC_ROLE_USERADMIN: fullAdmin
-    PF_OIDC_ROLE_EXPRESSIONADMIN: fullAdmin
+   # PF_OIDC_CLIENT_AUTHN_METHOD: client_secret_basic
+   # PF_OIDC_AUTHORIZATION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/authorize"
+   # PF_OIDC_TOKEN_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/token"
+   # PF_OIDC_USER_INFO_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/userinfo"
+   # PF_OIDC_END_SESSION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/signoff"
+   # PF_OIDC_ISSUER: https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as
+   # PF_OIDC_ACR_VALUES: ""
+   # PF_OIDC_SCOPES: openid email profile
+   # PF_OIDC_USERNAME_ATTRIBUTE_NAME: name
+   # PF_OIDC_ROLE_ATTRIBUTE_NAME: pf_admin_roles
+   # PF_OIDC_ROLE_ADMIN: fullAdmin
+   # PF_OIDC_ROLE_CRYPTOMANAGER: fullAdmin
+   # PF_OIDC_ROLE_USERADMIN: fullAdmin
+   # PF_OIDC_ROLE_EXPRESSIONADMIN: fullAdmin
     # don't have auditor and admin
-    PF_OIDC_ROLE_AUDITOR: roleAuditor
+   # PF_OIDC_ROLE_AUDITOR: roleAuditor
   services:
     https:
       servicePort: 443
@@ -127,7 +127,7 @@ pingfederate-engine:
     tag: 10.2.0-edge
     pullPolicy: Always
   envs:
-    PF_CONSOLE_AUTHENTICATION: OIDC
+    PF_CONSOLE_AUTHENTICATION: NATIVE
     PF_ADMIN_API_AUTHENTICATION: NATIVE
     SERVER_PROFILE_PATH: profiles/pingfederate
     SERVER_PROFILE_URL: https://github.com/pingdevopsprogram/reference-cicd
@@ -137,21 +137,21 @@ pingfederate-engine:
     # PF_OIDC_CLIENT_ID: ""
     # PF_OIDC_CLIENT_SECRET: ""
     # will change per account
-    PF_OIDC_CLIENT_AUTHN_METHOD: client_secret_basic
-    PF_OIDC_AUTHORIZATION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/authorize"
-    PF_OIDC_TOKEN_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/token"
-    PF_OIDC_USER_INFO_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/userinfo"
-    PF_OIDC_END_SESSION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/signoff"
-    PF_OIDC_ISSUER: https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as
-    PF_OIDC_ACR_VALUES: ""
-    PF_OIDC_SCOPES: openid email profile
-    PF_OIDC_USERNAME_ATTRIBUTE_NAME: name
-    PF_OIDC_ROLE_ATTRIBUTE_NAME: pf_admin_roles
-    PF_OIDC_ROLE_ADMIN: fullAdmin
-    PF_OIDC_ROLE_CRYPTOMANAGER: fullAdmin
-    PF_OIDC_ROLE_USERADMIN: fullAdmin
-    PF_OIDC_ROLE_EXPRESSIONADMIN: fullAdmin
-    PF_OIDC_ROLE_AUDITOR: roleAuditor
+   # PF_OIDC_CLIENT_AUTHN_METHOD: client_secret_basic
+   # PF_OIDC_AUTHORIZATION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/authorize"
+   # PF_OIDC_TOKEN_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/token"
+   # PF_OIDC_USER_INFO_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/userinfo"
+   # PF_OIDC_END_SESSION_ENDPOINT: "https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as/signoff"
+   # PF_OIDC_ISSUER: https://auth.pingone.com/${P1_ADMIN_ENV_ID}/as
+   # PF_OIDC_ACR_VALUES: ""
+   # PF_OIDC_SCOPES: openid email profile
+   # PF_OIDC_USERNAME_ATTRIBUTE_NAME: name
+   # PF_OIDC_ROLE_ATTRIBUTE_NAME: pf_admin_roles
+   # PF_OIDC_ROLE_ADMIN: fullAdmin
+   # PF_OIDC_ROLE_CRYPTOMANAGER: fullAdmin
+   # PF_OIDC_ROLE_USERADMIN: fullAdmin
+   # PF_OIDC_ROLE_EXPRESSIONADMIN: fullAdmin
+   # PF_OIDC_ROLE_AUDITOR: roleAuditor
   clustering:
     autoscaling:
       enabled: false
@@ -180,7 +180,7 @@ pingfederate-engine:
 # pingdirectory values
 #############################################################
 pingdirectory:
-  enabled: true
+  enabled: false
   envs:
     SERVER_PROFILE_PATH: profiles/pingdirectory
     SERVER_PROFILE_URL: https://github.com/pingdevopsprogram/reference-cicd 
@@ -192,7 +192,7 @@ pingdirectory:
 # pingdataconsole values
 #############################################################
 pingdataconsole:
-  enabled: true
+  enabled: false
   envs:
     SERVER_PROFILE_URL: https://github.com/pingidentity/pingidentity-server-profiles.git
     SERVER_PROFILE_PATH: baseline/pingdataconsole
