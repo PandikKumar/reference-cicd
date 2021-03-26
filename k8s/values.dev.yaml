@@ -102,7 +102,7 @@ pingfederate-admin:
 # # pingfederate-engine values
 # #############################################################
 pingfederate-engine:
-   enabled: false
+  enabled: false
 #   image:
 #     repository: pingidentity
 #     name: pingfederate
@@ -111,8 +111,8 @@ pingfederate-engine:
 #   clustering:
 #     autoscaling:
 #       enabled: false
-  container:
-    replicaCount: 1
+# container:
+#    replicaCount: 1
 
 #############################################################
 # pingdirectory values
