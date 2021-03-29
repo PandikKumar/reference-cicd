@@ -10,7 +10,8 @@ prop() {
 . ../ci_tools.lib.sh
 set +a
 set -x
-
+echo "Some line" > file1.txt
+cp "file1.txt" "profiles/pingfederate_admin/instance/bulk-config/file1.txt"
 getPfVars
 
 pVersion="$(git rev-parse --short HEAD)"
