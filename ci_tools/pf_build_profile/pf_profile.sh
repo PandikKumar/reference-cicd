@@ -42,4 +42,11 @@ sed 's/=.*$/=/' "${pVersion}/tmp_env_vars" > "${pVersion}/env_vars"
 cd "${_initialDir}" || exit
 cp "${_scriptDir}/${pVersion}/data.json.subst" "profiles/pingfederate_admin/instance/bulk-config/data.json.subst"
 
+for D in ./profiles/* ; do 
+  if [ -d "${D}" ]; then 
+    _prodName=$(basename "${D}")
+    dirr="${D}"
+    eval "${_prodName}Sha=$(git log -n 1 --pretty=format:%h -- "$dirr")"
+  fi
+done
 # rm -rf "${pVersion}"

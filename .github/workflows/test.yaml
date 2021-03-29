@@ -1,16 +1,64 @@
-#!/usr/bin/env sh
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main 
 
-set -x
-# set -e
 
-set -a
-# shellcheck source=./ci_tools.lib.sh
-. ./ci_tools/pf_build_profile/pf_profile.sh
+name: Deploy Updates to Stable Envs
 
-for D in ./profiles/* ; do 
-  if [ -d "${D}" ]; then 
-    _prodName=$(basename "${D}")
-    dirr="${D}"
-    eval "${_prodName}Sha=$(git log -n 1 --pretty=format:%h -- "$dirr")"
-  fi
-done
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+        
+    - name: Install Dependencies
+      run: |
+        set -x
+        sudo apt-get update -y
+        sudo apt-get install awscli -y 
+        sudo apt-get install git -y
+        curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+        chmod +x kops-linux-amd64
+        sudo mv kops-linux-amd64 /usr/local/bin/kops
+        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        mkdir ${HOME}/.kube
+        echo "${{ secrets.KUBE_CONFIG_YAML }}" | base64 --decode > ${HOME}/.kube/config
+        kubectl version
+        kubectl get pods
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+        helm repo add pingidentity https://helm.pingidentity.com/
+        helm repo update
+        helm repo ls
+        helm ls
+        echo "ended install"
+        echo ${{ github.event_name }}
+        export REF=$(echo $GITHUB_REF | sed -e "s#refs/heads/##g")
+        echo $REF
+    - name: Deploy Changes
+      env:
+        PF_ADMIN_WORKER_ID: ${{ secrets.PF_ADMIN_WORKER_ID}}
+        PF_ADMIN_WORKER_SECRET: ${{ secrets.PF_ADMIN_WORKER_SECRET}}
+      run: |
+        export REF=$(echo $GITHUB_REF | sed -e "s#refs/heads/##g")
+        echo $REF
+        sh ci_tools/pf_build_profile/pf_profile.sh
