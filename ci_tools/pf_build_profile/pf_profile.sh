@@ -10,8 +10,7 @@ prop() {
 . ../ci_tools.lib.sh
 set +a
 set -x
-echo "Some line" > file1.txt
-cp "file1.txt" "profiles/pingfederate_admin/instance/bulk-config/file1.txt"
+
 getPfVars
 
 pVersion="$(git rev-parse --short HEAD)"
@@ -21,7 +20,7 @@ mkdir -p "${pVersion}"
 export pVersion
 
 echo "Downloading config from ${PF_ADMIN_PUBLIC_HOSTNAME}..."
-curl -X GET --basic -u Administrator:${PING_IDENTITY_PASSWORD} --header 'Content-Type: application/json' --header 'X-XSRF-Header: PingFederate' "https://a508a04600bd24eb9a27bbd00159a88c-1622843681.ap-south-1.elb.amazonaws.com/pf-admin-api/v1/bulk/export" --insecure | jq -r > "${pVersion}/data.json"
+curl -X GET --basic -u Administrator:${PING_IDENTITY_PASSWORD} --header 'Content-Type: application/json' --header 'X-XSRF-Header: PingFederate' "https://${PF_ADMIN_PUBLIC_HOSTNAME}/pf-admin-api/v1/bulk/export" --insecure | jq -r > "${pVersion}/data.json"
 
 echo "Creating/modifying ${pVersion}/env_vars and ${pVersion}/data.json.subst..."
 java -jar bulk-config-tool.jar pf-config.json "${pVersion}/data.json" "${pVersion}/env_vars" "${pVersion}/data.json.subst" > "${pVersion}/export-convert.log"
@@ -43,11 +42,4 @@ sed 's/=.*$/=/' "${pVersion}/tmp_env_vars" > "${pVersion}/env_vars"
 cd "${_initialDir}" || exit
 cp "${_scriptDir}/${pVersion}/data.json.subst" "profiles/pingfederate_admin/instance/bulk-config/data.json.subst"
 
-for D in ./profiles/* ; do 
-  if [ -d "${D}" ]; then 
-    _prodName=$(basename "${D}")
-    dirr="${D}"
-    eval "${_prodName}Sha=$(git log -n 1 --pretty=format:%h -- "$dirr")"
-  fi
-done
 # rm -rf "${pVersion}"

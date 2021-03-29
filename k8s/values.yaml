@@ -20,7 +20,7 @@ global:
   ingress:
     enabled: true
     addReleaseNameToHost: prepend
-    defaultDomain: ping-devops.com
+    defaultDomain: likemindscloud.com
     defaultTlsSecret:
     annotations:
       # nginx example
