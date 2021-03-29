@@ -160,7 +160,7 @@ pingfederate-engine:
   #     maxReplicas: 6
   #     targetCPUUtilizationPercentage: 75
   container:
-    replicaCount: 3
+    replicaCount: 1
   probes:
     liveness:
       command: /opt/liveness.sh
