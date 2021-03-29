@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+set -x
+# set -e
+
+set -a
+# shellcheck source=./ci_tools.lib.sh
+. ./ci_tools/pf_build_profile/pf_profile.sh
+
+for D in ./profiles/* ; do 
+  if [ -d "${D}" ]; then 
+    _prodName=$(basename "${D}")
+    dirr="${D}"
+    eval "${_prodName}Sha=$(git log -n 1 --pretty=format:%h -- "$dirr")"
+  fi
+done
